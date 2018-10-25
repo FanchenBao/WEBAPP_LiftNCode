@@ -9,4 +9,5 @@ urlpatterns = [
     path('', views.index, name='index'), # homepage
     path('topics/', views.topics, name = 'topics'), # topics
     path('topics/<int:topic_id>', views.topic, name = 'topic'), # individual topic
+    path('new_topic/', views.new_topic, name = 'new_topic'), # add new topic
 ]
