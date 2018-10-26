@@ -1,0 +1,18 @@
+{% extends "learning_notes/base.html" %}
+
+{% block content %}
+    <p><a href = "{% url 'learning_notes:topic' topic.id %}">{{ topic.text }}</a></p> <!-- ink to go back to topic page -->
+    <p>Edit entry:</p>
+    <form action = "{% url 'learning_notes:edit_entry' topic.id entry.id %}" method = 'POST'>
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type = 'submit' class = "button submit" value = 'Save Changes'>
+
+        <!-- use form to create a button with associated link -->
+        <form action = "{% url 'learning_notes:topic' topic.id %}" method="get">
+            <input type = 'submit' class = "button cancel" value = 'Cancel'>
+        </form>
+
+    </form>
+
+{% endblock content %}
