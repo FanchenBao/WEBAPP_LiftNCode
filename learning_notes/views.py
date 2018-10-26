@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 
-from .models import Topic
+from .models import Topic, Entry
 from .forms import TopicForm, EntryForm
 
 
@@ -31,7 +31,7 @@ def new_topic(request):
     if request.method != 'POST':
         form = TopicForm() # provide empty form if the request is not a form submission
     else: # user submit the form
-        form = TopicForm(request.POST)
+        form = TopicForm(data = request.POST)
         if form.is_valid(): # check for validity
             form.save()
             return HttpResponseRedirect(reverse('learning_notes:topics'))
@@ -46,7 +46,7 @@ def new_entry(request, topic_id):
     if request.method != 'POST':
         form = EntryForm() # provide empty form if the request is not a form submission
     else: # user submit the form
-        form = EntryForm(request.POST)
+        form = EntryForm(data = request.POST)
         if form.is_valid(): # check for validity
             new_entry = form.save(commit = False)
             new_entry.topic = topic
@@ -55,7 +55,19 @@ def new_entry(request, topic_id):
     context = {'form' : form, 'topic':topic}
     return render(request, 'learning_notes/new_entry.html', context)
 
-
+def edit_entry(request, topic_id, entry_id):
+    '''edit an entry'''
+    topic = Topic.objects.get(id = topic_id)
+    entry = Entry.objects.get(id = entry_id)
+    if request.method != 'POST':
+        form = EntryForm(instance = entry) # fill the form with pre-existing data
+    else:
+        form = EntryForm(instance = entry, data = request.POST) # fill with pre-existing data first, but then update the data based on request.POST
+        if form.is_valid(): # check for validity
+            form.save()
+            return HttpResponseRedirect(reverse('learning_notes:topic', args = [topic_id]))
+    context = {'form':form, 'topic':topic, 'entry':entry}
+    return render(request, 'learning_notes/edit_entry.html', context)
 
 
 
