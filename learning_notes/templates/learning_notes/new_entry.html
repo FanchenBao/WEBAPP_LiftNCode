@@ -1,11 +1,14 @@
 {% extends "learning_notes/base.html" %}
 
 {% block content %}
-    <p><a href = "{% url 'learning_notes:topic' topic.id %}">{{ topic.text }}</a></p>
-    <p>Add a new entry:</p>
+    <p><h3>Topic: <a href = "{% url 'learning_notes:topic' topic.id %}">{{ topic.text }}</a></h3></p>
+    <p>New Entry:</p>
     <form action = "{% url 'learning_notes:new_entry' topic.id %}" method = 'POST'>
         {% csrf_token %}
         {{form.as_p}}
-        <input type = 'submit', value = 'Add Entry'>
+        <input type = 'submit' class = 'button submit' value = 'Add Entry'>
+
+        <a href = "{% url 'learning_notes:topic' topic.id %}" class = "button cancel" >Cancel</a> <!-- cancel button -->
     </form>
+    
 {% endblock content %}

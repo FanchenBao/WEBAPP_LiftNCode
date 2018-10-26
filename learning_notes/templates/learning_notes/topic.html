@@ -19,7 +19,6 @@
         {% endfor %}
     </ul>
     <br>
-    <form action = "{% url 'learning_notes:new_entry' topic.id %}" method = 'GET'>
-        <input type = 'submit' class = "button submit" value = 'Add New Entry'>
-    </form>
+    <a href = "{% url 'learning_notes:new_entry' topic.id %}" class = "button add">Add New Entry</a>
+    
 {% endblock content %}

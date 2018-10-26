@@ -8,10 +8,7 @@
         {{form.as_p}}
         <input type = 'submit' class = "button submit" value = 'Save Changes'>
 
-        <!-- use form to create a button with associated link -->
-        <form action = "{% url 'learning_notes:topic' topic.id %}" method="get">
-            <input type = 'submit' class = "button cancel" value = 'Cancel'>
-        </form>
+        <a href = "{% url 'learning_notes:topic' topic.id %}" class = "button cancel" >Cancel</a> <!-- cancel button -->
 
     </form>
 

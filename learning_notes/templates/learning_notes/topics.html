@@ -3,11 +3,11 @@
 {% block content %}
     <ul>
         {% for topic in topics %}
-            <li><a href = "{% url 'learning_notes:topic' topic.id %}">{{ topic.text }}</a></li>
+            <li><h3><a href = "{% url 'learning_notes:topic' topic.id %}">{{ topic.text }}</a></h3></li>
         {% empty %}
             <li>No topic has been added yet.</li>
         {% endfor %}
     </ul>
 
-    <a href = "{% url 'learning_notes:new_topic' %}">Add New Topic</a>
+    <a href = "{% url 'learning_notes:new_topic' %}" class = "button add">Add New Topic</a>
 {% endblock content %}
