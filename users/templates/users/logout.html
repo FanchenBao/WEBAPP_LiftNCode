@@ -1,0 +1,7 @@
+<!-- {% extends "learning_notes/base.html" %} -->
+
+<!-- {% block content %} -->
+        <!-- this hidden input text is to pass the url value to the login view. There must be an access to the key 'next' in login view which takes its value as the url to go to after login succeeds-->
+        <input type = 'hidden' name = 'next_page' value = "{% url 'learning_notes:index' %}">
+
+<!-- {% endblock content %} -->

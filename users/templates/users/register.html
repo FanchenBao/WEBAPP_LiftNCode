@@ -1,0 +1,11 @@
+{% extends "learning_notes/base.html" %}
+
+{% block content %}
+    <form action = "{% url 'users:register' %}" method = 'POST'>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type = 'submit' class = 'button submit' value = 'Register'>
+
+        <a href = "{% url 'learning_notes:index' %}" class = "button cancel">Cancel</a> <!-- cancel button -->
+    </form>
+{% endblock content %}

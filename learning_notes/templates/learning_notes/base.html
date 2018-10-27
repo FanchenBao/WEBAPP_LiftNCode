@@ -9,9 +9,9 @@ div { /*use div tag to control the width of text display and how to wrap text*/
     background-color: green;
     border: none;
     color: white;
-    padding: 5px 7px;
+    padding: 3px 3px;
     text-align: center;
-    font-size: 14px;
+    font-size: 12px;
     cursor: pointer;
     transition-duration: 0.4s;
     display: inline-block;
@@ -74,9 +74,11 @@ div { /*use div tag to control the width of text display and how to wrap text*/
     <a href = "{% url 'learning_notes:index' %}">Learning Notes</a> - 
     <a href = "{% url 'learning_notes:topics' %}">Topics</a> - 
     {% if user.is_authenticated %}
-        Hello, {{user.username}}
+        Hello, {{user.username}}.
+        <a href = "{% url 'users:logout' %}">Log out</a>
     {% else %}
-        <a href = "{% url 'users:login' %}">Log in</a>
+        <a href = "{% url 'users:login' %}">Log in</a> - 
+        <a href = "{% url 'users:register' %}">Register</a>
     {% endif %}
 
 </p>
