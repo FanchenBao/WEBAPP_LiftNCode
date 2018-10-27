@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     # My app
     'learning_notes.apps.LearningNotesConfig',
+    'users.apps.UsersConfig'
 ]
 
 MIDDLEWARE = [

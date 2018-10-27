@@ -1,18 +1,16 @@
 {% extends "learning_notes/base.html" %}
 
 {% block content %}
-    <p>Topic: {{topic.text}}</p>
-    <p>Entries:</p>
+    <h2 style="display: inline;">Topic: {{topic.text}}</h2>
+    <a href="{% url 'learning_notes:delete_topic' topic.id %}" class="button delete" onclick="return confirm('Are you sure to delete this topic?');" >Delete</a>
     <ul>
         {% for entry in entries %}
             <li>
-                <p><b>{{ entry.title}}</b></p>
+                <p style="display: inline;"><b><font size="4">{{ entry.title}}</font></b></p> <!-- use display: inline to display buttons and title in one line-->
+                <a href="{% url 'learning_notes:edit_entry' topic.id entry.id%}" class = "button edit">Edit</a>
+                <a href="{% url 'learning_notes:delete_entry' topic.id entry.id %}" class="button delete" onclick="return confirm('Are you sure to delete this entry?');" >Delete</a>
                 <p>{{ entry.date_added|date:"M d, Y H : i" }}</p>
-                <p>{{ entry.text|linebreaks }}</p>
-                <p><form action = "{% url 'learning_notes:edit_entry' topic.id entry.id%}" method = 'GET'>
-                    <input type = 'submit' class = "button edit" value = 'Edit'>
-                    </form>
-                </p>
+                <div>{{ entry.text|linebreaks }}</div>
             </li>
         {% empty %}
             <li>No entry has been added for this topic yet.</li>
@@ -20,5 +18,5 @@
     </ul>
     <br>
     <a href = "{% url 'learning_notes:new_entry' topic.id %}" class = "button add">Add New Entry</a>
-    
+
 {% endblock content %}

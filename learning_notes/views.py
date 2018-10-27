@@ -69,6 +69,17 @@ def edit_entry(request, topic_id, entry_id):
     context = {'form':form, 'topic':topic, 'entry':entry}
     return render(request, 'learning_notes/edit_entry.html', context)
 
+def delete_topic(request, topic_id):
+    ''' delete a topic, its entries will be deleted as well'''
+    topic = Topic.objects.get(id = topic_id)
+    topic.delete()
+    return HttpResponseRedirect(reverse('learning_notes:topics'))
+
+def delete_entry(request, topic_id, entry_id):
+    ''' delete a topic, its entries will be deleted as well'''
+    entry = Entry.objects.get(id = entry_id)
+    entry.delete()
+    return HttpResponseRedirect(reverse('learning_notes:topic', args = [topic_id]))
 
 
 
