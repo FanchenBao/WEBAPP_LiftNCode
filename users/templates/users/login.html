@@ -1,0 +1,18 @@
+{% extends "learning_notes/base.html" %}
+
+{% block content %}
+    {% if form.errors %}
+        <p> Your username and password do not match. Please try again. </p>
+    {% endif %}
+
+    <form action = "{% url 'users:login' %}" method = 'POST'>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type = 'submit' class = 'button submit' value = 'Log in'>
+        
+        <!-- this hidden input text is to pass the url value to the login view. There must be an access to the key 'next' in login view which takes its value as the url to go to after login succeeds-->
+        <input type = 'hidden' name = 'next' value = "{% url 'learning_notes:index' %}">
+
+        <a href = "{% url 'learning_notes:index' %}" class = "button cancel">Cancel</a> <!-- cancel button -->
+    </form>
+{% endblock content %}
