@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Topic(models.Model):
     ''' a topic about which user is learning'''
@@ -11,6 +12,7 @@ class Topic(models.Model):
 
 class Entry(models.Model):
     ''' the entry for each topic '''
+    owner = models.ForeignKey(User, on_delete = models.CASCADE) # set up user as each entryf's ForeignKey
     topic = models.ForeignKey(Topic, on_delete = models.CASCADE)
     title = models.CharField(max_length = 200)
     text = models.TextField()

@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 from .models import Topic, Entry
 from .forms import TopicForm, EntryForm
@@ -17,6 +18,7 @@ def topics(request):
     context = {'topics' : topics}
     return render(request, 'learning_notes/topics.html', context)
 
+
 def topic(request, topic_id):
     ''' each individual topic page. Display all entries related to the topic'''
     topic = Topic.objects.get(pk = topic_id)
@@ -24,6 +26,7 @@ def topic(request, topic_id):
     context = {'topic' : topic, 'entries' : entries}
     return render(request, 'learning_notes/topic.html', context)
 
+@login_required
 def new_topic(request):
     ''' Add a new topic
         display empty form or process user-submitted form
@@ -33,11 +36,14 @@ def new_topic(request):
     else: # user submit the form
         form = TopicForm(data = request.POST)
         if form.is_valid(): # check for validity
-            form.save()
+            new_topic = form.save(commit = False)
+            new_topic.owner = request.user
+            new_topic.save()
             return HttpResponseRedirect(reverse('learning_notes:topics'))
     context = {'form' : form}
     return render(request, 'learning_notes/new_topic.html', context)
 
+@login_required
 def new_entry(request, topic_id):
     ''' Add a new entry under a certain topic
         display empty form or process user-submitted form
@@ -55,8 +61,11 @@ def new_entry(request, topic_id):
     context = {'form' : form, 'topic':topic}
     return render(request, 'learning_notes/new_entry.html', context)
 
+@login_required
 def edit_entry(request, topic_id, entry_id):
     '''edit an entry'''
+    if topic.owner != request.user:
+        raise Http404
     topic = Topic.objects.get(id = topic_id)
     entry = Entry.objects.get(id = entry_id)
     if request.method != 'POST':
@@ -69,13 +78,19 @@ def edit_entry(request, topic_id, entry_id):
     context = {'form':form, 'topic':topic, 'entry':entry}
     return render(request, 'learning_notes/edit_entry.html', context)
 
+@login_required
 def delete_topic(request, topic_id):
     ''' delete a topic, its entries will be deleted as well'''
+    if topic.owner != request.user:
+        raise Http404
     topic = Topic.objects.get(id = topic_id)
     topic.delete()
     return HttpResponseRedirect(reverse('learning_notes:topics'))
 
+@login_required
 def delete_entry(request, topic_id, entry_id):
+    if topic.owner != request.user:
+        raise Http404
     ''' delete a topic, its entries will be deleted as well'''
     entry = Entry.objects.get(id = entry_id)
     entry.delete()
