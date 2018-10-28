@@ -1,4 +1,8 @@
 <style>
+p.warning{
+    color:red;
+    font-size: 16px;
+}
 div { /*use div tag to control the width of text display and how to wrap text*/
     width: 600px; 
     border: none;
@@ -77,7 +81,9 @@ div { /*use div tag to control the width of text display and how to wrap text*/
         Hello, {{user.username}}.
         <a href = "{% url 'users:logout' %}">Log out</a>
     {% else %}
-        <a href = "{% url 'users:login' %}">Log in</a> - 
+        <a href = "{% url 'users:login' %}?next={{request.path|urlencode}}"> Log in</a> - 
+        <!-- use ?next= to pass the current page's url to the next page in order to return back to the current page -->
+
         <a href = "{% url 'users:register' %}">Register</a>
     {% endif %}
 

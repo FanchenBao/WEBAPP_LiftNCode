@@ -1,3 +1,4 @@
+''' Users views'''
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -17,7 +18,7 @@ def register(request):
             password = request.POST['password1']
             authenticated_user = authenticate(username=username, password=password)
             login(request, authenticated_user)
-            return HttpResponseRedirect(reverse('learning_notes:index'))
+            return HttpResponseRedirect(reverse('learning_notes:index')) 
     context = {'form':form}
     return render(request, 'users/register.html', context)
 

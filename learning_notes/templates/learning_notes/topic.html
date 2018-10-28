@@ -2,13 +2,14 @@
 
 {% block content %}
     <h2 style="display: inline;">Topic: {{topic.text}}</h2>
-    <a href="{% url 'learning_notes:delete_topic' topic.id %}" class="button delete" onclick="return confirm('Are you sure to delete this topic?');" >Delete</a>
     <ul>
         {% for entry in entries %}
             <li>
-                <p style="display: inline;"><b><font size="4">{{ entry.title}}</font></b></p> <!-- use display: inline to display buttons and title in one line-->
-                <a href="{% url 'learning_notes:edit_entry' topic.id entry.id%}" class = "button edit">Edit</a>
-                <a href="{% url 'learning_notes:delete_entry' topic.id entry.id %}" class="button delete" onclick="return confirm('Are you sure to delete this entry?');" >Delete</a>
+                <p style="display: inline;"><b><font size="4">{{ entry.title}}</font></b></p> <!-- use display: inline to display buttons and title in one line -->
+                {% if user == entry.owner %}
+                    <a href="{% url 'learning_notes:edit_entry' topic.id entry.id%}" class = "button edit">Edit</a>
+                    <a href="{% url 'learning_notes:delete_entry' topic.id entry.id %}" class="button delete" onclick="return confirm('Are you sure to delete this entry?');" >Delete</a>
+                {% endif %}
                 <p>{{ entry.date_added|date:"M d, Y H : i" }}</p>
                 <div>{{ entry.text|linebreaks }}</div>
             </li>

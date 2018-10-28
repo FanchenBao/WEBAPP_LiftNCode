@@ -1,3 +1,4 @@
+''' learning_notes views'''
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.urls import reverse
@@ -31,16 +32,19 @@ def new_topic(request):
     ''' Add a new topic
         display empty form or process user-submitted form
     '''
+    topicAlreadyExist = False # flag
     if request.method != 'POST':
         form = TopicForm() # provide empty form if the request is not a form submission
     else: # user submit the form
         form = TopicForm(data = request.POST)
         if form.is_valid(): # check for validity
             new_topic = form.save(commit = False)
-            new_topic.owner = request.user
-            new_topic.save()
-            return HttpResponseRedirect(reverse('learning_notes:topics'))
-    context = {'form' : form}
+            if Topic.objects.filter(text = new_topic.text).exists(): # check whether the new topic already exists
+                topicAlreadyExist = True # use this flag to print warning msg in html template when duplicate topic is entered
+            else:
+                new_topic.save()
+                return HttpResponseRedirect(reverse('learning_notes:topics'))
+    context = {'form':form, 'topicAlreadyExist':topicAlreadyExist, 'existingTopic':new_topic}
     return render(request, 'learning_notes/new_topic.html', context)
 
 @login_required
@@ -56,6 +60,7 @@ def new_entry(request, topic_id):
         if form.is_valid(): # check for validity
             new_entry = form.save(commit = False)
             new_entry.topic = topic
+            new_entry.owner = request.user
             new_entry.save()
             return HttpResponseRedirect(reverse('learning_notes:topic', args = [topic_id]))
     context = {'form' : form, 'topic':topic}
@@ -64,10 +69,10 @@ def new_entry(request, topic_id):
 @login_required
 def edit_entry(request, topic_id, entry_id):
     '''edit an entry'''
-    if topic.owner != request.user:
-        raise Http404
     topic = Topic.objects.get(id = topic_id)
     entry = Entry.objects.get(id = entry_id)
+    if entry.owner != request.user:
+        raise Http404
     if request.method != 'POST':
         form = EntryForm(instance = entry) # fill the form with pre-existing data
     else:
@@ -78,21 +83,21 @@ def edit_entry(request, topic_id, entry_id):
     context = {'form':form, 'topic':topic, 'entry':entry}
     return render(request, 'learning_notes/edit_entry.html', context)
 
-@login_required
-def delete_topic(request, topic_id):
-    ''' delete a topic, its entries will be deleted as well'''
-    if topic.owner != request.user:
-        raise Http404
-    topic = Topic.objects.get(id = topic_id)
-    topic.delete()
-    return HttpResponseRedirect(reverse('learning_notes:topics'))
+# @login_required
+# def delete_topic(request, topic_id):
+#     ''' delete a topic, its entries will be deleted as well'''
+#     if topic.owner != request.user:
+#         raise Http404
+#     topic = Topic.objects.get(id = topic_id)
+#     topic.delete()
+#     return HttpResponseRedirect(reverse('learning_notes:topics'))
 
 @login_required
 def delete_entry(request, topic_id, entry_id):
-    if topic.owner != request.user:
-        raise Http404
     ''' delete a topic, its entries will be deleted as well'''
     entry = Entry.objects.get(id = entry_id)
+    if entry.owner != request.user:
+        raise Http404
     entry.delete()
     return HttpResponseRedirect(reverse('learning_notes:topic', args = [topic_id]))
 

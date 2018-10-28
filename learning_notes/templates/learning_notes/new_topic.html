@@ -1,6 +1,9 @@
 {% extends "learning_notes/base.html" %}
 
 {% block content %}
+    {% if topicAlreadyExist %}
+        <p class = 'warning'>Topic "{{existingTopic.text}} already exists. Please add a different topic, or post your notes under the existing "{{existingTopic.text}}" topic</p>
+    {% endif %}
     <p><h3>Add a new topic:</h3></p>
     <form action = "{% url 'learning_notes:new_topic'%}" method = 'POST'>
         {% csrf_token %}
