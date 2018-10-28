@@ -10,7 +10,7 @@
                     <a href="{% url 'learning_notes:edit_entry' topic.id entry.id%}" class = "button edit">Edit</a>
                     <a href="{% url 'learning_notes:delete_entry' topic.id entry.id %}" class="button delete" onclick="return confirm('Are you sure to delete this entry?');" >Delete</a>
                 {% endif %}
-                <p>{{ entry.date_added|date:"M d, Y H : i" }}</p>
+                <p>By: <a href = "{% url 'learning_notes:archive_user_topics' entry.owner.id %}"><i>{{entry.owner}}</i></a>&emsp;{{ entry.date_added|date:"M d, Y H:i" }}</p>
                 <div>{{ entry.text|linebreaks }}</div>
             </li>
         {% empty %}

@@ -1,0 +1,14 @@
+{% extends "learning_notes/base.html" %}
+
+{% block content %}
+    <h2>User: {{archive_user.username}}</h2>
+    <h3>Participating in topics:</h3>
+    <ul>
+        {% for topic in topics %}
+            <li><h3>{{ topic.text }}</h3></li>
+        {% empty %}
+            <li>No topic has been added yet.</li>
+        {% endfor %}
+    </ul>
+
+{% endblock content %}

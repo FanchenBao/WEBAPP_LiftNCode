@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 from .models import Topic, Entry
 from .forms import TopicForm, EntryForm
@@ -100,6 +101,20 @@ def delete_entry(request, topic_id, entry_id):
         raise Http404
     entry.delete()
     return HttpResponseRedirect(reverse('learning_notes:topic', args = [topic_id]))
+
+def archive_user_topics(request, user_id):
+    ''' display all topics a user has posted under'''
+    user = User.objects.get(id = user_id)
+
+    # the most important line in this view. This is to retrieve a querySet of topics,
+    # at least one of whose related entries has the same owner as the passed in user.
+    # Since entry is included in topic, even though topic doesn't have a field named
+    # entry, one can access entry via topic by topic.entry_set or put entry directly
+    # in the filter argument. Double underscore is used inside filter to further retrieve
+    # field of entry. This filtering creates a querySet topics which the user has participated in.
+    topics = Topic.objects.filter(entry__owner = user)
+    context = {'topics':topics, 'archive_user':user}
+    return render(request, 'learning_notes/archive_user_topics.html', context)
 
 
 
