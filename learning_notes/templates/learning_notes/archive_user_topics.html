@@ -1,11 +1,11 @@
 {% extends "learning_notes/base.html" %}
 
 {% block content %}
-    <h2>User: {{archive_user.username}}</h2>
-    <h3>Participating in topics:</h3>
+    <h2>User: <i>{{archive_user.username}}</i></h2>
+    <h3>Archived Topics:</h3>
     <ul>
         {% for topic in topics %}
-            <li><h3>{{ topic.text }}</h3></li>
+            <li><a href = "{% url 'learning_notes:archive_user_entries' archive_user.id topic.id%}">{{ topic.text }}</a></li>
         {% empty %}
             <li>No topic has been added yet.</li>
         {% endfor %}

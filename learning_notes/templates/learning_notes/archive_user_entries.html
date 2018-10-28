@@ -1,25 +1,22 @@
 {% extends "learning_notes/base.html" %}
 
 {% block content %}
-    <h2 style="display: inline;">Topic: {{topic.text}}</h2>
+    <h2>User: <i>{{archive_user.username}}</i></h2>
+    <h3>Archived entries under topic "<a href = "{% url 'learning_notes:topic' topic.id %}">{{topic.text}}</a>"</h3>
     <ul>
         {% for entry in entries %}
             <li>
                 <p style="display: inline;"><b><font size="4">{{ entry.title}}</font></b></p> <!-- use display: inline to display buttons and title in one line -->
-                {% if user == entry.owner %}
+                {% if user == archive_user %}
                     <a href="{% url 'learning_notes:edit_entry' topic.id entry.id%}" class = "button edit">Edit</a>
                     <a href="{% url 'learning_notes:delete_entry' topic.id entry.id %}" class="button delete" onclick="return confirm('Are you sure to delete this entry?');" >Delete</a>
                 {% endif %}
-                <p>By: <a href = "{% url 'learning_notes:archive_user_topics' entry.owner.id %}"><i>{{entry.owner}}</i></a>&emsp;{{ entry.date_added|date:"M d, Y H:i" }}</p>
+                <p>{{ entry.date_added|date:"M d, Y H:i" }}</p>
                 <div>{{ entry.text|linebreaks }}</div>
             </li>
         {% empty %}
             <li>No entry has been added for this topic yet.</li>
         {% endfor %}
     </ul>
-    <br>
-    {% if user.is_authenticated %}
-        <a href = "{% url 'learning_notes:new_entry' topic.id %}" class = "button add">Add New Entry</a>
-    {% endif %}
 
 {% endblock content %}

@@ -34,13 +34,14 @@ def new_topic(request):
         display empty form or process user-submitted form
     '''
     topicAlreadyExist = False # flag
+    new_topic = None
     if request.method != 'POST':
         form = TopicForm() # provide empty form if the request is not a form submission
     else: # user submit the form
         form = TopicForm(data = request.POST)
         if form.is_valid(): # check for validity
             new_topic = form.save(commit = False)
-            if Topic.objects.filter(text = new_topic.text).exists(): # check whether the new topic already exists
+            if Topic.objects.filter(text__iexact = new_topic.text).exists(): # check whether the new topic already exists (case insensitive match)
                 topicAlreadyExist = True # use this flag to print warning msg in html template when duplicate topic is entered
             else:
                 new_topic.save()
@@ -112,9 +113,20 @@ def archive_user_topics(request, user_id):
     # entry, one can access entry via topic by topic.entry_set or put entry directly
     # in the filter argument. Double underscore is used inside filter to further retrieve
     # field of entry. This filtering creates a querySet topics which the user has participated in.
+    # Read for reference https://docs.djangoproject.com/en/2.1/topics/db/examples/many_to_one/
     topics = Topic.objects.filter(entry__owner = user)
     context = {'topics':topics, 'archive_user':user}
     return render(request, 'learning_notes/archive_user_topics.html', context)
+
+def archive_user_entries(request, user_id, topic_id):
+    ''' display all entries owned by the user under a specific topic'''
+    user = User.objects.get(id = user_id)
+    topic = Topic.objects.get(id = topic_id)
+    entriesUnderTopic = topic.entry_set.all()
+    entriesUderUser = user.entry_set.all()
+    entries = entriesUderUser.intersection(entriesUnderTopic) # the entries belonging to the user that are also under the current topic
+    context = {'entries':entries, 'archive_user':user, 'topic':topic}
+    return render(request, 'learning_notes/archive_user_entries.html', context)
 
 
 
