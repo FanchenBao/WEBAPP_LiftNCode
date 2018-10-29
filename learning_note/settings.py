@@ -11,7 +11,17 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-import django_heroku
+
+''' Note that the way I set it up, django_heroku must be commented, along with
+    the django_heroku.settings(locals()), to allow for running the app locally
+    using django's own local server. I do not want to use heroku's local server
+    because that requires extra settings and I am too lazy for that.
+
+    Furthermore, to run it locally, set DEBUG to False, and comment out ALLOWED_HOSTS
+    When finished with changes and ready for deployment, reverse the abovementioned
+    steps before pushing to heroku.
+'''
+# import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,9 +34,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'cir=*7ve1d4=fib(!f7b&-89wo7#srvr)xlsk3@#e_k=rv1h6e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['liftncode.herokuapp.com']
+# ALLOWED_HOSTS = ['liftncode.herokuapp.com']
 
 
 # Application definition
@@ -127,4 +137,4 @@ STATIC_URL = '/static/'
 # My settings
 LOGIN_URL = '/users/login'
 
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
