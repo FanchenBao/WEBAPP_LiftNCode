@@ -17,7 +17,7 @@ import os
     using django's own local server. I do not want to use heroku's local server
     because that requires extra settings and I am too lazy for that.
 
-    Furthermore, to run it locally, set DEBUG to False, and comment out ALLOWED_HOSTS
+    Furthermore, to run it locally, comment out ALLOWED_HOSTS
     When finished with changes and ready for deployment, reverse the abovementioned
     steps before pushing to heroku.
 '''
@@ -34,7 +34,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'cir=*7ve1d4=fib(!f7b&-89wo7#srvr)xlsk3@#e_k=rv1h6e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['liftncode.herokuapp.com']
 
