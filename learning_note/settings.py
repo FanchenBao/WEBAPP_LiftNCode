@@ -21,7 +21,7 @@ import os
     When finished with changes and ready for deployment, reverse the abovementioned
     steps before pushing to heroku.
 '''
-# import django_heroku
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -36,7 +36,7 @@ SECRET_KEY = 'cir=*7ve1d4=fib(!f7b&-89wo7#srvr)xlsk3@#e_k=rv1h6e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = ['liftncode.herokuapp.com']
+ALLOWED_HOSTS = ['liftncode.herokuapp.com']
 
 
 # Application definition
@@ -137,4 +137,4 @@ STATIC_URL = '/static/'
 # My settings
 LOGIN_URL = '/users/login'
 
-# django_heroku.settings(locals())
+django_heroku.settings(locals())
