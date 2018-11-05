@@ -17,7 +17,7 @@ import os
     using django's own local server. I do not want to use heroku's local server
     because that requires extra settings and I am too lazy for that.
 
-    Furthermore, to run it locally, comment out ALLOWED_HOSTS
+    Furthermore, to run it locally, comment out ALLOWED_HOSTS and set DEBUG to True
     When finished with changes and ready for deployment, reverse the abovementioned
     steps before pushing to heroku.
 '''

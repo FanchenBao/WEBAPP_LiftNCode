@@ -2,6 +2,9 @@
 
 {% block content %}
     <h2 style="display: inline;">Topic: {{topic.text}}</h2>
+    {% if user.is_authenticated %}
+        <a href = "{% url 'learning_notes:new_entry' topic.id %}" class = "button add">Add New Entry</a>
+    {% endif %}
     <ul>
         {% for entry in entries %}
             <li>
