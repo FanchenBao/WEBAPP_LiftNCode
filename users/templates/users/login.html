@@ -10,9 +10,18 @@
         {{ form.as_p }}
         <input type = 'submit' class = 'button submit' value = 'Log in'>
         
-        <!-- this hidden input text is to pass the url value to the login view. There must be an access to the key 'next' in login view which takes its value as the url to go to after login succeeds-->
-        <input type = 'hidden' name = 'next' value = "{{ request.GET.next }}">
-
+        <!-- 
+        this hidden input text is to pass the url value to the login view. There must be an access to the key 'next' in login view which takes its value as the url to go to after login succeeds
+        
+        Note that here we don't have to use request.GET.next, because, I guess the 'next' field is populated
+        in the LoginView by the url passed after clicking 'Log In'. Thus, each time the login form gets submitted
+        the 'next' field stays the same (because we are passing {{ next }} to next again in the hidden input). However if we have not specified what 'next' field is in the view, then in order to get the value in 'next' passed from the previous webpage, we have to use request.GET.next
+        -->
+        {% if next %}
+            <input type = 'hidden' name = 'next' value = "{{ next }}">
+        {% else %} <!-- in case there is no "next" value, redirect back to home page-->
+            <input type = 'hidden' name = 'next' value = "{% url 'learning_notes:index' %}">
+        {% endif %}
         <a href = "{% url 'learning_notes:index' %}" class = "button cancel">Cancel</a> <!-- cancel button -->
     </form>
 {% endblock content %}
