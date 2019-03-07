@@ -60,11 +60,9 @@
             <a class="nav-link" href="{% url 'learning_notes:topics' %}">Topics</a>
           </li>
         </ul>
-        <ul class="navbar-nav justify-content-end">
+        <ul class="navbar-nav navbar-right">
           {% if user.is_authenticated %}
-            <li class="nav-item active">
-              Hello, {{user.username}}.
-            </li>
+            <p id="greetUser" class="navbar-text">Hello, {{user.username}}!</p>
             <li class="nav-item">
               <a class="nav-link" href = "{% url 'users:logout' %}">Log out</a>
             </li>
