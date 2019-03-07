@@ -1,93 +1,108 @@
-<style>
-p.warning{
-    color:red;
-    font-size: 16px;
-}
-div { /* controls how the entry's text is displayed */
-    width: 600px; 
-    border: none;
-    word-wrap: break-word;
-}
-/* styling for all button */
-.button {
-    background-color: green;
-    border: none;
-    color: white;
-    padding: 3px 3px;
-    text-align: center;
-    font-size: 12px;
-    cursor: pointer;
-    transition-duration: 0.4s;
-    display: inline-block;
-    text-decoration: none; /* no underine for the text in button */
-    font-family: "Verdana", Arial, sans-serif;
-    margin-left: 10px;
-}
 
-.submit { /* for confirming, submitting, or any positive action */
-    background-color: white; 
-    color: #4CAF50; 
-    border: 2px solid green; /* Green */
-}
-.submit:hover {
-    background-color: green; /* Green */
-    color: white;
-}
+<!doctype html>
+<html lang="en" class="h-100">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.5">
+    <title>LiftNCode</title>
 
-.delete { /* for deleting or any negative/warning action */
-    background-color: white; 
-    color: red; /* red */ 
-    border: 2px solid red; /* red */ 
-}
-.delete:hover {
-    background-color: red; /* red */ 
-    color: white;
-}
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/jumbotron/">
 
-.edit { /* for editing or any modification action */
-    background-color: white; 
-    color: orange; /* red */ 
-    border: 2px solid orange; /* red */ 
-}
-.edit:hover {
-    background-color: orange; /* red */ 
-    color: white;
-}
+    <!-- Bootstrap CSS CDN-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-.add { /* for adding */
-    background-color: white; 
-    color: blue; /* red */ 
-    border: 2px solid blue; /* red */ 
-}
-.add:hover {
-    background-color: blue; /* red */ 
-    color: white;
-}
+    <!-- django's way of handling CSS (static files) -->
+    {% load static %}
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
 
-.cancel { /* for canceling purpose */
-    background-color: white;
-    color: grey;
-    border: 2px solid grey; /* black */
-}
-.cancel:hover {
-    background-color: grey; /* black */
-    color: white;
-}
-</style>
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
 
-<p>
-    <a href = "{% url 'learning_notes:index' %}">Learning Notes</a> - 
-    <a href = "{% url 'learning_notes:topics' %}">Topics</a> - 
-    {% if user.is_authenticated %}
-        Hello, {{user.username}}.
-        <a href = "{% url 'users:logout' %}">Log out</a>
-    {% else %}
-        <a href = "{% url 'users:login' %}?next={{request.path|urlencode}}"> Log in</a> - 
-        <!-- use ?next= to pass the current page's url to the next page in order to return back to the current page -->
+      body{
+        background-image: url({% static 'learning_notes/img/liftncode.png' %});
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: center;" 
+      }
+    </style>
 
-        <a href = "{% url 'users:register' %}">Register</a>
-    {% endif %}
+    <!-- Custom styles for this template -->
+    <link href="{% static "learning_notes/css/jumbotron.css" %}" rel="stylesheet">
+    <link href="{% static "learning_notes/css/sticky-footer.css" %}" rel="stylesheet">
+    <!-- My style css -->
+    <link href="{% static "learning_notes/css/mystyle.css" %}" rel="stylesheet">
+  </head>
 
-</p>
+  <body class="d-flex flex-column h-100">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="{% url 'learning_notes:index' %}">Learning Notes</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-{% block content%}{% endblock content%}
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'learning_notes:topics' %}">Topics</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav justify-content-end">
+          {% if user.is_authenticated %}
+            <li class="nav-item active">
+              Hello, {{user.username}}.
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href = "{% url 'users:logout' %}">Log out</a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href = "{% url 'users:login' %}?next={{request.path|urlencode}}">Log in</a>
+            </li>
+            <!-- use ?next= to pass the current page's url to the next page in order to return back to the current page -->
+
+            <li class="nav-item">
+              <a class="nav-link" href = "{% url 'users:register' %}">Register</a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+
+    <main role="main">
+
+      {% block content%}{% endblock content%}
+    
+    </main>
+
+    <footer class="footer mt-auto py-3">
+      <div class="footer container">
+        <span class="text-muted">&copy; Fanchen Bao 2018-2019. Powered By <a href="https://getbootstrap.com/docs/4.3/examples/jumbotron/">Bootstrap Jumbotron</a> and <a href="https://getbootstrap.com/docs/4.3/examples/sticky-footer/">Sticky Footer</a></span>
+      </div>
+    </footer>
+
+    <!-- JS, Popper.js, and jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
+
+
+
+
+
+

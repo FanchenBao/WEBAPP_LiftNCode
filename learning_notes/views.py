@@ -17,6 +17,10 @@ def index(request):
 def topics(request):
     ''' main topics page, display all topics'''
     topics = Topic.objects.order_by('date_added')
+    topics = []
+    for topic in Topic.objects.order_by('date_added'):
+        count = topic.entry_set.count()
+        topics.append({'id':topic.id, 'text':topic.text, 'count':count})
     context = {'topics' : topics}
     return render(request, 'learning_notes/topics.html', context)
 

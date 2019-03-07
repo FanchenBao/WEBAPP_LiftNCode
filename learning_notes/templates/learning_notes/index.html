@@ -1,6 +1,14 @@
 {% extends "learning_notes/base.html" %}
 
 {% block content %}
-    <p><b>liftncode</b> provides a Learning Notes app to help you keep track of the new knowledge you have acquired throughout your life-long learning journey. </p>
-    <p>Never stop LIFTING and CODING!</p>
+  <div class="jumbotron">
+    <div class="jumbo container">
+      <h1 class="display-3">LiftNCode</h1>
+      <p>LiftNCode is a simple web app to help you keep track of whatever new knowledge you have acquired throughout your life-long learning journey. Start an account today to create any topic of interest, and jot down notes of your learning experience.</p>
+      <p>Never stop LIFTING and CODING!</p>
+      <p><a class="btn btn-primary btn-lg" href="{% url 'learning_notes:topics' %}" role="button">Take a peak &raquo;</a></p>
+    </div>
+  </div>
+    
+
 {% endblock content %}
