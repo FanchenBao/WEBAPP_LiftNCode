@@ -44,7 +44,7 @@ def new_topic(request):
         form = TopicForm(data = request.POST)
         if form.is_valid(): # check for validity
             new_topic = form.save(commit = False)
-            checkExistQuerySet = Topic.objects.filter(text__icontains = new_topic.text)
+            checkExistQuerySet = Topic.objects.filter(text__iexact = new_topic.text)
             if checkExistQuerySet.exists(): # check whether the new topic already exists (case insensitive match)
                 topicAlreadyExist = True # use this flag to print warning msg in html template when duplicate topic is entered
                 existingTopic = checkExistQuerySet[0]
@@ -120,8 +120,15 @@ def archive_user_topics(request, user_id):
     # field of entry. This filtering creates a querySet topics which the user has participated in.
     # Read for reference https://docs.djangoproject.com/en/2.1/topics/db/examples/many_to_one/
     topics = []
-    for topic in Topic.objects.filter(entry__owner = user):
-
+    
+    # the distinct() function is essential, because entry__owner = user basically is 
+    # doing a JOIN. Yet, since I don't know an easy way to do LEFT JOIN, the resulting
+    # QuersySet for topics contain duplicates (e.g. if a user publishes two entries under a specific topic,
+    # then each entry's owner would match the user once, giving two total matches. Each
+    # match returns one account of the specific topic, thus we would have two copies of
+    # the same topic in the resulting QuerySet. The solution is to constrain the returned
+    # QuerySet as unique by using the distinct() function.
+    for topic in Topic.objects.filter(entry__owner = user).distinct():
         # count how many entries this particular user has created
         count = topic.entry_set.filter(owner = user).count()
         
