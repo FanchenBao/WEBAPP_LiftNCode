@@ -12,7 +12,7 @@
         </div>
         <div class="card-body">
           <h5 class="card-title">{{ entry.title}}</h5>
-          <p class="card-text">{{ entry.text|linebreaks }}</p>
+          <p class="card-text">{{ entry.text|safe }}</p>
           {% if user == entry.owner %}
             <a href="{% url 'learning_notes:edit_entry' topic.id entry.id%}" class="btn btn-warning">Edit</a>
             <a href="{% url 'learning_notes:delete_entry' topic.id entry.id %}" class="btn btn-danger" onclick="return confirm('Are you sure to delete this entry?');" >Delete</a>

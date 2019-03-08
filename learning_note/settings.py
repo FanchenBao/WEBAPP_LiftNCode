@@ -51,7 +51,10 @@ INSTALLED_APPS = [
 
     # My app
     'learning_notes.apps.LearningNotesConfig',
-    'users.apps.UsersConfig'
+    'users.apps.UsersConfig',
+
+    # Installed app
+    'tinymce',
 ]
 
 MIDDLEWARE = [
