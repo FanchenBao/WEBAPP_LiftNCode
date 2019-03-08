@@ -6,6 +6,13 @@ class TopicForm(forms.ModelForm):
         model = Topic
         fields = ['text']
         labels = {'text':''}
+        widgets ={
+            'text': forms.TextInput(attrs={
+                'class': 'topicForm', 
+                'size':45,
+                'placeholder': "Enter topic"
+                })
+        }
 
 class EntryForm(forms.ModelForm):
     class Meta:

@@ -74,3 +74,15 @@ a.toTop{
     font-size: 24px;
 }
 
+
+/*new_topic.html*/
+div.form-group.newTopic p{
+    margin-bottom: 0;
+}
+
+.topicForm{
+    font-size: 24px;
+}
+
+
+
