@@ -23,8 +23,8 @@
           <p class="card-text">{{ entry.text|safe }}</p>
           
           {% if user == entry.owner %}
-            <a href="{% url 'learning_notes:edit_entry' topic.id entry.id%}" class="btn btn-warning">Edit</a>
-            <a href="{% url 'learning_notes:delete_entry' topic.id entry.id %}" class="btn btn-danger" onclick="return confirm('Are you sure to delete this entry?');" >Delete</a>
+            <a href="{% url 'learning_notes:edit_entry' topic.id entry.id%}" class="btn btn-warning btn-sm">Edit</a>
+            <a href="{% url 'learning_notes:delete_entry' topic.id entry.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure to delete this entry?');" >Delete</a>
           {% endif %}
         </div>
       </div>

@@ -5,13 +5,17 @@
     <h2>User: <em>{{archive_user.username}}</em></h2>
     <h3>Archived Topics:</h3>
     <div class="list-group">
+      <li class="list-group-item d-flex justify-content-between align-items-center topicListHeader">
+        Topic Name
+        <span class="badge badge-info">Entries Count</span>
+      </li>
       {% for topic in topics %}
         <!-- Use button for the cursor hover effect and to include badge. Use location.href to make button function as an <a> tag -->
         <button 
           type="button"
           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center topicList"
           onclick="location.href='{% url 'learning_notes:archive_user_entries' archive_user.id topic.id%}'">
-          {{ topic.text }}<span class="badge badge-primary badge-pill">{{ topic.count }}</span>
+          {{ topic.text }}<span class="badge badge-info">{{ topic.count }}</span>
         </button>
       {% empty %}
         <button type="button" class="list-group-item d-flex justify-content-between align-items-center topicList">No topic has been added yet.</button>

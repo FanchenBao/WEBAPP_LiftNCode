@@ -39,12 +39,11 @@
           font-size: 3.5rem;
         }
       }
-
       body{
-        background-image: url({% static 'learning_notes/img/liftncode.png' %});
+        background-image: url({% static 'learning_notes/img/liftncode_light.png' %});
         background-repeat: repeat;
         background-position: center;
-        background-size: contain;" 
+        background-size: contain; 
       }
     </style>
 
@@ -57,7 +56,10 @@
     <script src="https://cloud.tinymce.com/5/tinymce.min.js"></script>
     <script>tinymce.init({ selector:'textarea' });</script>
 
+    <!-- My JavaScript -->
     <script type="text/javascript" src="{% static "learning_notes/js/login.js" %}"></script>
+
+    <link rel="shortcut icon" type="image/png" href="{% static 'learning_notes/img/favicon.png' %}"/>
 
   </head>
 
