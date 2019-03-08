@@ -1,14 +1,25 @@
 {% extends "learning_notes/base.html" %}
 
 {% block content %}
+  <div class="container login">
     {% if form.errors %}
-        <p> Your username and password do not match. Please try again. </p>
+      <div class="alert alert-danger" role="alert">
+        Your username and password do not match. Please try again. Note that both fields are case-sensitive.
+      </div>
     {% endif %}
 
     <form action = "{% url 'users:login' %}" method = 'POST'>
         {% csrf_token %}
-        {{ form.as_p }}
-        <input type = 'submit' class = 'button submit' value = 'Log in'>
+        <div class="form-group">
+          {{ form.username.label_tag }}
+          {{ form.username }}
+        </div>
+        <div class="form-group">
+          {{ form.password.label_tag }}
+          {{ form.password }}
+        </div>
+        <!-- {{ form.as_p }} -->
+        <input type = 'submit' class = 'btn btn-primary' value = 'Log in'>
         
         <!-- 
         this hidden input text is to pass the url value to the login view. There must be an access to the key 'next' in login view which takes its value as the url to go to after login succeeds
@@ -22,6 +33,7 @@
         {% else %} <!-- in case there is no "next" value, redirect back to home page-->
             <input type = 'hidden' name = 'next' value = "{% url 'learning_notes:index' %}">
         {% endif %}
-        <a href = "{% url 'learning_notes:index' %}" class = "button cancel">Cancel</a> <!-- cancel button -->
+        <a href = "{% url 'learning_notes:index' %}" class = "btn btn-secondary">Cancel</a> <!-- cancel button -->
     </form>
+  </div>
 {% endblock content %}
