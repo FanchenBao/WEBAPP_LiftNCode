@@ -20,7 +20,7 @@
           <h5 class="card-title">{{ entry.title}}</h5>
 
           <!-- use the safe filter to display html tags, which turns output into rich text -->
-          <p class="card-text">{{ entry.text|safe }}</p>
+          <p class="card-text">{{ entry.text|safe|linebreaks }}</p>
           
           {% if user == entry.owner %}
             <a href="{% url 'learning_notes:edit_entry' topic.id entry.id%}" class="btn btn-warning btn-sm">Edit</a>
