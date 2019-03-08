@@ -16,7 +16,6 @@ def index(request):
 
 def topics(request):
     ''' main topics page, display all topics'''
-    topics = Topic.objects.order_by('date_added')
     topics = []
     for topic in Topic.objects.order_by('date_added'):
         count = topic.entry_set.count()
@@ -118,7 +117,13 @@ def archive_user_topics(request, user_id):
     # in the filter argument. Double underscore is used inside filter to further retrieve
     # field of entry. This filtering creates a querySet topics which the user has participated in.
     # Read for reference https://docs.djangoproject.com/en/2.1/topics/db/examples/many_to_one/
-    topics = Topic.objects.filter(entry__owner = user)
+    topics = []
+    for topic in Topic.objects.filter(entry__owner = user):
+
+        # count how many entries this particular user has created
+        count = topic.entry_set.filter(owner = user).count()
+        
+        topics.append({'id':topic.id, 'text':topic.text, 'count':count})
     context = {'topics':topics, 'archive_user':user}
     return render(request, 'learning_notes/archive_user_topics.html', context)
 
