@@ -1,22 +1,28 @@
 {% extends "learning_notes/base.html" %}
 
 {% block content %}
+  <div class="container topic" id="top">
     <h2>User: <i>{{archive_user.username}}</i></h2>
-    <h3>Archived entries under topic "<a href = "{% url 'learning_notes:topic' topic.id %}">{{topic.text}}</a>"</h3>
-    <ul>
-        {% for entry in entries %}
-            <li>
-                <p style="display: inline;"><b><font size="4">{{ entry.title}}</font></b></p> <!-- use display: inline to display buttons and title in one line -->
-                {% if user == archive_user %}
-                    <a href="{% url 'learning_notes:edit_entry' topic.id entry.id%}" class = "button edit">Edit</a>
-                    <a href="{% url 'learning_notes:delete_entry' topic.id entry.id %}" class="button delete" onclick="return confirm('Are you sure to delete this entry?');" >Delete</a>
-                {% endif %}
-                <p>{{ entry.date_added|date:"M d, Y H:i" }}</p>
-                <div>{{ entry.text|linebreaks }}</div>
-            </li>
-        {% empty %}
-            <li>No entry has been added for this topic yet.</li>
-        {% endfor %}
-    </ul>
+    <h3>Archived entries under topic: <a href = "{% url 'learning_notes:topic' topic.id %}">{{topic.text}}</a></h3>
 
+    {% for entry in entries %}
+      <div class="card">
+        <div class="card-header">
+          By: <a class="entryOwner" href = "{% url 'learning_notes:archive_user_topics' entry.owner.id %}">{{entry.owner}}</a>{{ entry.date_added|date:"M d, Y H:i" }}
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{ entry.title}}</h5>
+          <p class="card-text">{{ entry.text|linebreaks }}</p>
+          {% if user == entry.owner %}
+            <a href="{% url 'learning_notes:edit_entry' topic.id entry.id%}" class="btn btn-warning">Edit</a>
+            <a href="{% url 'learning_notes:delete_entry' topic.id entry.id %}" class="btn btn-danger" onclick="return confirm('Are you sure to delete this entry?');" >Delete</a>
+          {% endif %}
+        </div>
+      </div>
+    {% empty %}
+      <p>No entry has been added for this topic yet.</p>
+    {% endfor %}
+
+    <a href="#top" class="toTop"><i class="fas fa-angle-up"></i> TOP</a>
+  </div>
 {% endblock content %}
