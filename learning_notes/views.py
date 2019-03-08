@@ -37,19 +37,21 @@ def new_topic(request):
         display empty form or process user-submitted form
     '''
     topicAlreadyExist = False # flag
-    new_topic = None
+    existingTopic = None
     if request.method != 'POST':
         form = TopicForm() # provide empty form if the request is not a form submission
     else: # user submit the form
         form = TopicForm(data = request.POST)
         if form.is_valid(): # check for validity
             new_topic = form.save(commit = False)
-            if Topic.objects.filter(text__iexact = new_topic.text).exists(): # check whether the new topic already exists (case insensitive match)
+            checkExistQuerySet = Topic.objects.filter(text__icontains = new_topic.text)
+            if checkExistQuerySet.exists(): # check whether the new topic already exists (case insensitive match)
                 topicAlreadyExist = True # use this flag to print warning msg in html template when duplicate topic is entered
+                existingTopic = checkExistQuerySet[0]
             else:
                 new_topic.save()
                 return HttpResponseRedirect(reverse('learning_notes:topics'))
-    context = {'form':form, 'topicAlreadyExist':topicAlreadyExist, 'existingTopic':new_topic}
+    context = {'form':form, 'topicAlreadyExist':topicAlreadyExist, 'existingTopic':existingTopic}
     return render(request, 'learning_notes/new_topic.html', context)
 
 @login_required
