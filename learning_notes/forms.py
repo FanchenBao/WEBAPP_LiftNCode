@@ -20,5 +20,5 @@ class EntryForm(forms.ModelForm):
         fields = ['title','text']
         labels = {'text':'', 'title':''}
         widgets = {'text':forms.Textarea(attrs = {'cols':80, 'rows':18}),
-                    'title':forms.TextInput(attrs={'size': 80})
+                    'title':forms.TextInput(attrs={'size': 80, 'placeholder':'Enter a title'})
                     }
