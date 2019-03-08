@@ -1,6 +1,7 @@
 {% extends "learning_notes/base.html" %}
 
 {% block content %}
+  <div class="container newEntry">
     <p><h3>Topic: <a href = "{% url 'learning_notes:topic' topic.id %}">{{ topic.text }}</a></h3></p>
     <p>New Entry:</p>
     <form action = "{% url 'learning_notes:new_entry' topic.id %}" method = 'POST'>
@@ -10,5 +11,6 @@
 
         <a href = "{% url 'learning_notes:topic' topic.id %}" class = "button cancel" >Cancel</a> <!-- cancel button -->
     </form>
+  </div>
     
 {% endblock content %}
