@@ -11,16 +11,10 @@
     background-color: rgba(242, 242, 242, 0.9);
 }
 
-.jumbo.container{
-    width: 80%;
-}
-
-
 /*topics.html*/
 .container.topics{
     padding-top: 3.5rem;
     padding-bottom: 3.5rem;
-    width: 40rem;
     font-size: 30px;
 }
 
@@ -51,7 +45,6 @@ button.topicList:hover{
 .container.topic{
     padding-top: 2.5rem;
     padding-bottom: 2.5rem;
-    width: 60rem;
 }
 
 .topic.topline{
@@ -104,17 +97,11 @@ ul.errorlist.nonfield{
 .container.login{
     margin-top: 3rem;
     margin-left: 4rem;
-    width: 400px;
-    /*background-color: rgba(204, 204, 204, 0.9);*/
-    /*padding-top: 1rem;
-    padding-bottom: 1rem;
-    border-radius: 5%;*/
     float: left;
 }
 
 .container.register{
     margin-top: 3rem;
-    width: 600px;
     background-color: rgba(242, 242, 242, 0.9);
     padding: 1rem;
 }
